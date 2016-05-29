@@ -27,10 +27,10 @@ chrome.storage.sync.get({
     options['telnetsecret'] = items.telnetsecret;
     options['agentnumber'] = items.agentnumber;
 
-    if(!options.pluginhost || !options.telnethost || !options.telnetport || !options.telnetuser || !options.telnetsecret || !options.agentnumber){    	
+    /*if(!options.pluginhost || !options.telnethost || !options.telnetport || !options.telnetuser || !options.telnetsecret || !options.agentnumber){    	
         chrome.storage.local.set({cstatus:'Set options'});
     	return false;
-    }
+    }*/
     
     var socket_io = io('http://'+options.pluginhost, {
         query: "telnethost="+options.telnethost+"&telnetport="+options.telnetport+"&telnetuser="+options.telnetuser+"&telnetsecret="+options.telnetsecret+"&agentnumber="+options.agentnumber+"&current_socket_id="+current_socket_local_id,
@@ -48,7 +48,13 @@ chrome.storage.sync.get({
     });
 
     socket_io.on('error_asterisk_connect',function(data){
-        chrome.storage.local.set({cstatus:'Error'});
+    	console.log(data);
+    	if(data.ami_status){
+    		chrome.storage.local.set({cstatus:'Connected'});
+    	} else {
+    		chrome.storage.local.set({cstatus:'Asterisk Error'});	
+    	}
+        
         
     });
 

@@ -57,6 +57,7 @@ function connection_status(){
   chrome.storage.local.get({
     cstatus:'Disconnected'
   }, function(items) {
+    console.log(items);
     document.getElementById('cstatus').textContent = items.cstatus;
   });
 }
@@ -69,9 +70,18 @@ function calls_history(){
   });
 }
 
+chrome.storage.onChanged.addListener(function (changes,areaName){
+      if(areaName == 'local'){
+        if (changes.cstatus){
+          connection_status();
+        }
+      }
+    });
+
 document.addEventListener('DOMContentLoaded', restore_options);
 document.addEventListener('DOMContentLoaded', connection_status);
 document.addEventListener('DOMContentLoaded', calls_history);
 document.getElementById('save').addEventListener('click',
     save_options);
-
+document.getElementById('save').addEventListener('click',
+    connection_status);
