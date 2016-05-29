@@ -1,0 +1,26 @@
+{
+   "author": "I AM GROOT",
+   "background": {
+      "scripts": [ "vendors/jquery.min.js", "socket.io/socket.io.js", "background.js" ]
+   },
+   "browser_action": {
+      "default_icon": "icon.png",
+      "default_popup": "popup.html"
+   },
+   "options_ui": {
+    "page": "options.html",
+    "chrome_style": true,
+    "open_in_tab": true
+  },
+   "default_locale": "uk",
+   "description": "__MSG_extDesc__",
+   "homepage_url": "http://economte.com.ua",
+   "icons": {
+      "128": "icon_120.png",
+      "48": "icon_48.png"
+   },
+   "manifest_version": 2,
+   "name": "ASTERISK",
+   "permissions": [ "notifications", "storage", "tabs", "cookies", "http://*/*", "https://*/*" ],
+   "version": "1.0.0"
+}
