@@ -2,9 +2,14 @@
 var notifications = {};
 var calls = {};
 var calls_array = [];
-
-
 chrome.storage.local.clear();
+
+var current_id = '1';
+
+
+function connect_with_options(current_socket_local_id){
+
+	console.log(current_socket_local_id);
 
 chrome.storage.sync.get({
     telnethost:'',
@@ -22,31 +27,55 @@ chrome.storage.sync.get({
     options['telnetsecret'] = items.telnetsecret;
     options['agentnumber'] = items.agentnumber;
 
-    var socket_io = io(options.pluginhost, {
-        query: "telnethost="+options.telnethost+"&telnetport="+options.telnetport+"&telnetuser="+options.telnetuser+"&telnetsecret="+options.telnetsecret+"&agentnumber="+options.agentnumber
+    if(!options.pluginhost || !options.telnethost || !options.telnetport || !options.telnetuser || !options.telnetsecret || !options.agentnumber){    	
+        chrome.storage.local.set({cstatus:'Set options'});
+    	return false;
+    }
+    
+    var socket_io = io('http://'+options.pluginhost, {
+        query: "telnethost="+options.telnethost+"&telnetport="+options.telnetport+"&telnetuser="+options.telnetuser+"&telnetsecret="+options.telnetsecret+"&agentnumber="+options.agentnumber+"&current_socket_id="+current_socket_local_id,
+    	reconnection: false
+    });
+
+    socket_io.on('connect_error',function(data){
+    	chrome.storage.local.set({cstatus:'Connect Error'});
     });
 
     socket_io.on('connected',function(data){
-        console.log('CONNECTED');
+    	current_id = data.current_socket_id;
+    	chrome.storage.local.set({cstatus:'Connected'});
         
     });
-    socket_io.on('disconnected',function(data){
-        console.log('DISCONNECTED');
+
+    socket_io.on('error_asterisk_connect',function(data){
+        chrome.storage.local.set({cstatus:'Error'});
+        
     });
 
     socket_io.on('message',function(data){
         calls_array.push(data);
-        calls['array'] = calls_array;
+        calls['calls_array'] = calls_array;
         chrome.storage.local.set(calls);
         console.log(calls);
     });
     
   });
+}
+
+connect_with_options(current_id);
+
+chrome.storage.onChanged.addListener(function (changes,areaName){
+    	if(areaName == 'sync'){
+    		if (changes.pluginhost || changes.telnethost || changes.telnetport || changes.telnetuser || changes.telnetsecret || changes.agentnumber){
+
+    			connect_with_options(current_id);
+    		}
+    	}
+    });
 
 
 
-
-chrome.browserAction.disable();
+//chrome.browserAction.disable();
 
 /* Respond to the user's clicking one of the buttons */
 chrome.notifications.onClicked.addListener(function(notifId, btnIdx) {

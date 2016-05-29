@@ -8,7 +8,9 @@
 </head>
 
 <body>
-  Connect options: <br>
+  <h3 id="connection" style="cursor:pointer;min-width:175px;">Connect options:</h3>
+  <hr>
+  <div id="options" style="display:none;">
   <label>
   Phone server host
     <input type="text" id="telnethost">
@@ -44,6 +46,18 @@
   <div id="status"></div>
   <button id="save">Save</button>
 
+  </div>
+
+  <h3 id="calls" style="cursor:pointer;min-width:175px;">Calls history:(<span id="count_calls">0</span>)</h3>
+  <hr>
+  <div id="calls_history" style="display:none;">
+  </div>
+
+  <div>
+    <h3>Status: <span id="cstatus">Disconnected</span></h3>
+  </div>
+
+  <script src="vendors/jquery.min.js"></script>
   <script src="options.js"></script>
 </body>
 </html>

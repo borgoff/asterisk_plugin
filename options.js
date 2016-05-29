@@ -1,4 +1,12 @@
 // Saves options to chrome.storage.sync.
+$(document).ready(function(){
+  $('#connection').click(function(){
+    $('#options').slideToggle();
+  });
+  $('#calls').click(function(){
+    $('#calls_history').slideToggle();
+  });
+});
 function save_options() {
   var telnethost = document.getElementById('telnethost').value;
   var telnetport = document.getElementById('telnetport').value;
@@ -20,6 +28,7 @@ function save_options() {
     status.textContent = 'Options saved.';
     setTimeout(function() {
       status.textContent = '';
+      connection_status();
     }, 750);
   });
 }
@@ -44,6 +53,25 @@ function restore_options() {
     document.getElementById('agentnumber').value = items.agentnumber;
   });
 }
+function connection_status(){
+  chrome.storage.local.get({
+    cstatus:'Disconnected'
+  }, function(items) {
+    document.getElementById('cstatus').textContent = items.cstatus;
+  });
+}
+
+function calls_history(){
+  chrome.storage.local.get({
+    calls_array:[]
+  }, function(items) {
+    console.log(items.calls_array);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', restore_options);
+document.addEventListener('DOMContentLoaded', connection_status);
+document.addEventListener('DOMContentLoaded', calls_history);
 document.getElementById('save').addEventListener('click',
     save_options);
+
