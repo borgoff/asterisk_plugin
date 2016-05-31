@@ -71,7 +71,8 @@ chrome.storage.onChanged.addListener(function (changes,areaName){
     		if (changes.pluginhost || changes.telnethost || changes.telnetport || changes.telnetuser || changes.telnetsecret || changes.agentnumber){
     			socket_io.emit('disconnect_this');
                 for(var key in changes){
-                    options[key] = changes[key];
+                    console.log(key,changes[key].newValue);
+                    options[key] = changes[key].newValue;
                 }
                 console.log('change options',options);
                 new_connect();
