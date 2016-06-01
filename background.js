@@ -6,36 +6,31 @@ var options = {};
 var socket_io = {};
 chrome.storage.local.clear();
 
-var current_id = '1';
-
 function new_connect(){
     console.log(options);
 
     socket_io = io('http://'+options.pluginhost, {
-        query: "telnethost="+options.telnethost+"&telnetport="+options.telnetport+"&telnetuser="+options.telnetuser+"&telnetsecret="+options.telnetsecret+"&agentnumber="+options.agentnumber,
+        query: "telnethost="+options.telnethost+"&telnetport="+options.telnetport+"&telnetuser="+options.telnetuser+"&telnetsecret="+options.telnetsecret+"&agentnumber="+options.agentnumber+"&dbhost="+options.dbhost+"&dbuser="+options.dbuser+"&dbsecret="+options.dbsecret+"&dbport="+options.dbport+"&dbname="+options.dbname,
         reconnection: false
     });
 
-    socket_io.on('connect_error',function(data){
-        chrome.storage.local.set({cstatus:'Connect Error'});
+    socket_io.on('no_options',function(data){
+        chrome.browserAction.setIcon({path: 'red_icon.png'});
+        chrome.storage.local.set({cstatus:'All options are required'});
+        socket_io.emit('disconnect_this');
     });
 
     socket_io.on('connected',function(data){
-        current_id = data.current_socket_id;
+        chrome.browserAction.setIcon({path: 'green_icon.png'});
         console.log(data.current_socket_id);
         chrome.storage.local.set({cstatus:'Connected'});
 
     });
 
-    socket_io.on('error_asterisk_connect',function(data){
-        console.log(data);
-        if(data.ami_status){
-            chrome.storage.local.set({cstatus:'Connected'});
-        } else {
-            chrome.storage.local.set({cstatus:'Asterisk Error'});
-        }
-
-
+    socket_io.on('error_connect',function(data){
+        chrome.browserAction.setIcon({path: 'red_icon.png'});
+        chrome.storage.local.set({cstatus:data.msg});
+        socket_io.emit('disconnect_this');
     });
 
     socket_io.on('message',function(data){
@@ -53,7 +48,16 @@ chrome.storage.sync.get({
     pluginhost:'',
     telnetuser:'',
     telnetsecret:'',
-    agentnumber:''
+    agentnumber:'',
+
+    dbhost: '',
+    dbuser: '',
+    dbsecret: '',
+    dbport: '',
+    dbname: '',
+
+    abill: '',
+    ubill: '',
   }, function(items) {
     options['telnethost'] = items.telnethost;
     options['telnetport'] = items.telnetport;
@@ -61,6 +65,16 @@ chrome.storage.sync.get({
     options['telnetuser'] = items.telnetuser;
     options['telnetsecret'] = items.telnetsecret;
     options['agentnumber'] = items.agentnumber;
+
+    options['dbhost'] = items.dbhost;
+    options['dbuser'] = items.dbuser;
+    options['dbsecret'] = items.dbsecret;
+    options['dbport'] = items.dbport;
+    options['dbname'] = items.dbname;
+
+    options['abill'] = items.abill;
+    options['ubill'] = items.ubill;
+
     new_connect();
 });
 
@@ -68,13 +82,11 @@ chrome.storage.sync.get({
 
 chrome.storage.onChanged.addListener(function (changes,areaName){
     	if(areaName == 'sync'){
-    		if (changes.pluginhost || changes.telnethost || changes.telnetport || changes.telnetuser || changes.telnetsecret || changes.agentnumber){
+    		if (changes.pluginhost || changes.telnethost || changes.telnetport || changes.telnetuser || changes.telnetsecret || changes.agentnumber || changes.dbhost || changes.dbuser || changes.dbsecret || changes.dbport || changes.dbname){
     			socket_io.emit('disconnect_this');
                 for(var key in changes){
-                    console.log(key,changes[key].newValue);
                     options[key] = changes[key].newValue;
                 }
-                console.log('change options',options);
                 new_connect();
     		}
     	}

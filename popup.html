@@ -12,18 +12,18 @@
   <hr>
   <div id="options" style="display:none;">
   <label>
-  Phone server host
+  Plugin server host
+    <input type="text" id="pluginhost">
+  </label><br><br>
+  <h3 style="min-width:175px;">Phone server config:</h3><hr>
+  <label>
+  Host IP
     <input type="text" id="telnethost">
   </label><br><br>
 
   <label>
-  Phone server port
+  Port
     <input type="text" id="telnetport">
-  </label><br><br>
-
-  <label>
-  Plugin server host
-    <input type="text" id="pluginhost">
   </label><br><br>
 
   <label>
@@ -41,7 +41,42 @@
     <input type="text" id="agentnumber">
   </label><br><br>
 
-  
+  <h3 style="min-width:175px;">DB server config:</h3><hr>
+  <label>
+  Host IP
+    <input type="text" id="dbhost">
+  </label><br><br>
+
+  <label>
+  Port
+    <input type="text" id="dbport">
+  </label><br><br>
+
+  <label>
+  DBname
+    <input type="text" id="dbname">
+  </label><br><br>
+
+  <label>
+  User
+    <input type="text" id="dbuser">
+  </label><br><br>
+
+  <label>
+  Password
+    <input type="text" id="dbsecret">
+  </label><br><br>
+
+  <h3 style="min-width:175px;">Billing config:</h3><hr>
+  <label>
+  Abills
+    <input type="text" id="abill">
+  </label><br><br>
+
+  <label>
+  Userside
+    <input type="text" id="ubill">
+  </label><br><br>
 
   <div id="status"></div>
   <button id="save">Save</button>

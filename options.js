@@ -14,6 +14,15 @@ function save_options() {
   var telnetuser = document.getElementById('telnetuser').value;
   var telnetsecret = document.getElementById('telnetsecret').value;
   var agentnumber = document.getElementById('agentnumber').value;
+
+  var dbhost = document.getElementById('dbhost').value;
+  var dbuser = document.getElementById('dbuser').value;
+  var dbsecret = document.getElementById('dbsecret').value;
+  var dbname = document.getElementById('dbname').value;
+  var dbport = document.getElementById('dbport').value;
+
+  var abill = document.getElementById('abill').value;
+  var ubill = document.getElementById('ubill').value;
   
   chrome.storage.sync.set({
     telnethost: telnethost,
@@ -22,6 +31,15 @@ function save_options() {
     telnetuser: telnetuser,
     telnetsecret: telnetsecret,
     agentnumber: agentnumber,
+
+    dbhost: dbhost,
+    dbuser: dbuser,
+    dbsecret: dbsecret,
+    dbname: dbname,
+    dbport: dbport,
+
+    abill: abill,
+    ubill: ubill,
   }, function() {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
@@ -43,7 +61,16 @@ function restore_options() {
     pluginhost:'',
     telnetuser:'',
     telnetsecret:'',
-    agentnumber:''
+    agentnumber:'',
+
+    dbhost: '',
+    dbuser: '',
+    dbsecret: '',
+    dbname: '',
+    dbport: '',
+
+    abill: '',
+    ubill: '',
   }, function(items) {
     document.getElementById('telnethost').value = items.telnethost;
     document.getElementById('telnetport').value = items.telnetport;
@@ -51,6 +78,15 @@ function restore_options() {
     document.getElementById('telnetuser').value = items.telnetuser;
     document.getElementById('telnetsecret').value = items.telnetsecret;
     document.getElementById('agentnumber').value = items.agentnumber;
+
+    document.getElementById('dbhost').value = items.dbhost;
+    document.getElementById('dbuser').value = items.dbuser;
+    document.getElementById('dbsecret').value = items.dbsecret;
+    document.getElementById('dbname').value = items.dbname;
+    document.getElementById('dbport').value = items.dbport;
+
+    document.getElementById('abill').value = items.abill;
+    document.getElementById('ubill').value = items.ubill;
   });
 }
 function connection_status(){
