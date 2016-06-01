@@ -93,8 +93,14 @@ function connection_status(){
   chrome.storage.local.get({
     cstatus:'Disconnected'
   }, function(items) {
-    console.log(items);
     document.getElementById('cstatus').textContent = items.cstatus;
+    if(items.cstatus == 'Connected'){
+      document.getElementById('cstatus').className = "connected";
+      console.log(items.cstatus);
+    } else {
+      document.getElementById('cstatus').className = "";
+      console.log(items.cstatus);
+    }
   });
 }
 
@@ -102,6 +108,7 @@ function calls_history(){
   chrome.storage.local.get({
     calls_array:[]
   }, function(items) {
+    document.getElementById('count_calls').textContent = items.calls_array.length;
     console.log(items.calls_array);
   });
 }

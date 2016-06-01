@@ -2,88 +2,85 @@
 <html>
 <head>
   <title>Connect options</title>
-  <style>
-    body: { padding: 10px; }
-  </style>
+  <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 
 <body>
-  <h3 id="connection" style="cursor:pointer;min-width:175px;">Connect options:</h3>
+  <h3 id="connection">Connect options: <span>&#8659</span></h3>
   <hr>
-  <div id="options" style="display:none;">
-  <label>
-  Plugin server host
-    <input type="text" id="pluginhost">
-  </label><br><br>
-  <h3 style="min-width:175px;">Phone server config:</h3><hr>
-  <label>
-  Host IP
-    <input type="text" id="telnethost">
-  </label><br><br>
-
-  <label>
-  Port
-    <input type="text" id="telnetport">
-  </label><br><br>
-
-  <label>
-  User name
-    <input type="text" id="telnetuser">
-  </label><br><br>
-
-  <label>
-  User secret
-    <input type="text" id="telnetsecret">
-  </label><br><br>
-
-  <label>
-  Agent ID
-    <input type="text" id="agentnumber">
-  </label><br><br>
-
-  <h3 style="min-width:175px;">DB server config:</h3><hr>
-  <label>
-  Host IP
-    <input type="text" id="dbhost">
-  </label><br><br>
-
-  <label>
-  Port
-    <input type="text" id="dbport">
-  </label><br><br>
-
-  <label>
-  DBname
-    <input type="text" id="dbname">
-  </label><br><br>
-
-  <label>
-  User
-    <input type="text" id="dbuser">
-  </label><br><br>
-
-  <label>
-  Password
-    <input type="text" id="dbsecret">
-  </label><br><br>
-
-  <h3 style="min-width:175px;">Billing config:</h3><hr>
-  <label>
-  Abills
-    <input type="text" id="abill">
-  </label><br><br>
-
-  <label>
-  Userside
-    <input type="text" id="ubill">
-  </label><br><br>
-
-  <div id="status"></div>
-  <button id="save">Save</button>
-
+  <div id="options">
+    <div class="half">
+      <h3>Plugin config:</h3><hr>
+      <label>
+        <span>Plugin server host</span>
+        <input type="text" id="pluginhost">
+      </label>  
+    </div>
+    <div class="half">
+      <h3>Billing config:</h3><hr>
+      <label>
+        <span>Abills</span>
+        <input type="text" id="abill">
+      </label>
+      <label>
+        <span>Userside</span>
+        <input type="text" id="ubill">
+      </label>
+    </div>
+    <div class="half">
+      <h3>Phone server config:</h3><hr>
+      <label>
+        <span>Host IP</span>
+        <input type="text" id="telnethost">
+      </label>
+      <label>
+        <span>Port</span>
+        <input type="text" id="telnetport">
+      </label>
+      <label>
+        <span>User name</span>
+        <input type="text" id="telnetuser">
+      </label>
+      <label>
+        <span>User secret</span>
+        <input type="text" id="telnetsecret">
+      </label>
+      <label>
+        <span>Agent ID</span>
+        <input type="text" id="agentnumber">
+      </label>
+    </div>
+    <div class="half">
+      <h3>DB server config:</h3><hr>
+      <label>
+        <span>Host IP</span>
+        <input type="text" id="dbhost">
+      </label>
+      <label>
+        <span>Port</span>
+        <input type="text" id="dbport">
+      </label>
+      <label>
+        <span>DBname</span>
+        <input type="text" id="dbname">
+      </label>
+      <label>
+        <span>User</span>
+        <input type="text" id="dbuser">
+      </label>
+      <label>
+        <span>Password</span>
+        <input type="text" id="dbsecret">
+      </label>
+    </div>
+    <div class="half">
+      <div id="status"></div>
+      <button id="save">Save</button>
+    </div>
+    <div class="clear"></div>
   </div>
 
-  <h3 id="calls" style="cursor:pointer;min-width:175px;">Calls history:(<span id="count_calls">0</span>)</h3>
+  <h3 id="calls">Calls history:(<span id="count_calls"></span>) <span>&#8659</span></h3>
   <hr>
   <div id="calls_history" style="display:none;">
   </div>

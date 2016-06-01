@@ -17,6 +17,7 @@ function new_connect(){
     socket_io.on('no_options',function(data){
         chrome.browserAction.setIcon({path: 'red_icon.png'});
         chrome.storage.local.set({cstatus:'All options are required'});
+        chrome.browserAction.setBadgeBackgroundColor({color: "#ff0000"});
         socket_io.emit('disconnect_this');
     });
 
@@ -24,17 +25,19 @@ function new_connect(){
         chrome.browserAction.setIcon({path: 'green_icon.png'});
         console.log(data.current_socket_id);
         chrome.storage.local.set({cstatus:'Connected'});
-
+        chrome.browserAction.setBadgeBackgroundColor({color: "#00ff00"});
     });
 
     socket_io.on('error_connect',function(data){
         chrome.browserAction.setIcon({path: 'red_icon.png'});
         chrome.storage.local.set({cstatus:data.msg});
+        chrome.browserAction.setBadgeBackgroundColor({color: "#ff0000"});
         socket_io.emit('disconnect_this');
     });
 
     socket_io.on('message',function(data){
         calls_array.push(data);
+        chrome.browserAction.setBadgeText({text: ""+calls_array.length+""});
         calls['calls_array'] = calls_array;
         chrome.storage.local.set(calls);
         console.log(calls);
