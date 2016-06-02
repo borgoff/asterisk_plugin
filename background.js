@@ -7,7 +7,6 @@ var socket_io = {};
 chrome.storage.local.clear();
 
 function new_connect(){
-    console.log(options);
 
     socket_io = io('http://'+options.pluginhost, {
         query: "telnethost="+options.telnethost+"&telnetport="+options.telnetport+"&telnetuser="+options.telnetuser+"&telnetsecret="+options.telnetsecret+"&agentnumber="+options.agentnumber+"&dbhost="+options.dbhost+"&dbuser="+options.dbuser+"&dbsecret="+options.dbsecret+"&dbport="+options.dbport+"&dbname="+options.dbname,
