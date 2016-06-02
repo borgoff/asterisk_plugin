@@ -14,14 +14,14 @@
 
    
    "default_locale": "uk",
-   "description": "__MSG_extDesc__",
-   "homepage_url": "http://economte.com.ua",
+   "description": "Плагін для кол центру",
+   "homepage_url": "http://us.astra.in.ua/",
    "icons": {
       "128": "icon_120.png",
       "48": "icon_48.png"
    },
    "manifest_version": 2,
-   "name": "ASTERISK",
+   "name": "ASTRA",
    "permissions": [ "notifications", "storage", "tabs", "cookies", "http://*/*", "https://*/*" ],
    "version": "1.0.0"
 }

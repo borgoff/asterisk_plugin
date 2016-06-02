@@ -11,6 +11,7 @@ function save_options() {
   var telnethost = document.getElementById('telnethost').value;
   var telnetport = document.getElementById('telnetport').value;
   var pluginhost = document.getElementById('pluginhost').value;
+  var pluginport = document.getElementById('pluginport').value;
   var telnetuser = document.getElementById('telnetuser').value;
   var telnetsecret = document.getElementById('telnetsecret').value;
   var agentnumber = document.getElementById('agentnumber').value;
@@ -28,6 +29,7 @@ function save_options() {
     telnethost: telnethost,
     telnetport: telnetport,
     pluginhost: pluginhost,
+    pluginport: pluginport,
     telnetuser: telnetuser,
     telnetsecret: telnetsecret,
     agentnumber: agentnumber,
@@ -59,6 +61,7 @@ function restore_options() {
     telnethost:'',
     telnetport:'',
     pluginhost:'',
+    pluginport:'',
     telnetuser:'',
     telnetsecret:'',
     agentnumber:'',
@@ -75,6 +78,7 @@ function restore_options() {
     document.getElementById('telnethost').value = items.telnethost;
     document.getElementById('telnetport').value = items.telnetport;
     document.getElementById('pluginhost').value = items.pluginhost;
+    document.getElementById('pluginport').value = items.pluginport;
     document.getElementById('telnetuser').value = items.telnetuser;
     document.getElementById('telnetsecret').value = items.telnetsecret;
     document.getElementById('agentnumber').value = items.agentnumber;
@@ -107,9 +111,27 @@ function connection_status(){
 function calls_history(){
   chrome.storage.local.get({
     calls_array:[]
-  }, function(items) {
-    document.getElementById('count_calls').textContent = items.calls_array.length;
-    console.log(items.calls_array);
+  }, function(local_items) {
+    document.getElementById('count_calls').textContent = local_items.calls_array.length;
+    
+    chrome.storage.sync.get({
+      abill: '',
+    }, function(sync_items) {
+      var calls_history_html = '';
+
+      local_items.calls_array.forEach(function(item, i, arr) {
+        if (item.unknown_user){
+          calls_history_html += '<div class="call_row">'+
+                                item.user_phone+'/'+item.call_time
+                                '</div>';
+        } else {
+          calls_history_html += '<div class="call_row">'+
+                                item.user_phone+' / '+item.call_time+' / '+item.user_id+' / '+item.user_fio+' / <a href="'+sync_items.abill+'">Abills</a>'+
+                                '</div>';
+        }
+      });
+    });
+    
   });
 }
 

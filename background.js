@@ -4,11 +4,14 @@ var calls = {};
 var calls_array = [];
 var options = {};
 var socket_io = {};
+var myAudio = new Audio();
+myAudio.src = "concise.mp3";
+
 chrome.storage.local.clear();
 
 function new_connect(){
 
-    socket_io = io('http://'+options.pluginhost, {
+    socket_io = io('http://'+options.pluginhost+':'+options.pluginport, {
         query: "telnethost="+options.telnethost+"&telnetport="+options.telnetport+"&telnetuser="+options.telnetuser+"&telnetsecret="+options.telnetsecret+"&agentnumber="+options.agentnumber+"&dbhost="+options.dbhost+"&dbuser="+options.dbuser+"&dbsecret="+options.dbsecret+"&dbport="+options.dbport+"&dbname="+options.dbname,
         reconnection: false
     });
@@ -35,11 +38,63 @@ function new_connect(){
     });
 
     socket_io.on('message',function(data){
+        var now = new Date();
+        var pretty = [
+          now.getHours(),
+          ':',
+          now.getMinutes(),
+          ':',
+          now.getSeconds()
+        ].join('');
+
+        data['call_time'] = pretty;
         calls_array.push(data);
         chrome.browserAction.setBadgeText({text: ""+calls_array.length+""});
         calls['calls_array'] = calls_array;
         chrome.storage.local.set(calls);
-        console.log(calls);
+
+        var first_button_url = '';
+        var second_button_url = '';
+        var notification_items = [];
+        if (data.unknown_user){
+            notification_items = [
+                                    {title: "Вхідний номер", message: data.user_phone},
+                                    {title: "Абонент", message: "Відсутній в базі"}
+                                ];
+            var first_button_url = options.abill;
+            var second_button_url = options.ubill;
+        } else {
+            notification_items = [
+                                    {title: "Вхідний номер", message: data.user_phone},
+                                    {title: "Абонент", message: data.user_id},
+                                    {title: "П.І.Б.", message: data.user_fio},
+                                    {title: "Депозит", message: data.user_deposit},
+                                    {title: "Кредит", message: data.user_credit},
+                                    {title: "Тариф", message: data.user_plan_name},
+                                    {title: "Група", message: data.user_group_name},
+                                    {title: "Район", message: data.user_district_name},
+                                    {title: "Вулиця", message: data.user_street_name},
+                                    {title: "Будинок", message: data.user_bild_number},
+                                    {title: "Квартира", message: data.user_flat_number}
+                                ];
+            first_button_url = options.abill+'/admin/index.cgi?index=15&UID='+data.user_id;
+            second_button_url = options.ubill+'/oper/abon_list.php?type=find&search='+data.user_id+'&find_typer=abon_codeti&accurat=1';
+        }
+
+        chrome.notifications.create({
+            type: "list",
+            title: "Новий дзвінок",
+            iconUrl: "icon_120.png",
+            requireInteraction:true,
+            buttons: [{ title: "Abills", iconUrl: "red_icon.png"},
+                        { title: "Userside", iconUrl: "green_icon.png"}],
+            items: notification_items
+
+        }, function(notifId) {
+            var id = notifId.replace(/(-)/g, '');
+            notifications[id] = [first_button_url, second_button_url];
+            myAudio.play();    
+        });
     });
 
 }
@@ -48,6 +103,7 @@ chrome.storage.sync.get({
     telnethost:'',
     telnetport:'',
     pluginhost:'',
+    pluginport:'',
     telnetuser:'',
     telnetsecret:'',
     agentnumber:'',
@@ -63,7 +119,8 @@ chrome.storage.sync.get({
   }, function(items) {
     options['telnethost'] = items.telnethost;
     options['telnetport'] = items.telnetport;
-    options['pluginhost'] = items.pluginhost+':3333';
+    options['pluginhost'] = items.pluginhost;
+    options['pluginport'] = items.pluginport;
     options['telnetuser'] = items.telnetuser;
     options['telnetsecret'] = items.telnetsecret;
     options['agentnumber'] = items.agentnumber;
@@ -84,7 +141,7 @@ chrome.storage.sync.get({
 
 chrome.storage.onChanged.addListener(function (changes,areaName){
     	if(areaName == 'sync'){
-    		if (changes.pluginhost || changes.telnethost || changes.telnetport || changes.telnetuser || changes.telnetsecret || changes.agentnumber || changes.dbhost || changes.dbuser || changes.dbsecret || changes.dbport || changes.dbname){
+    		if (changes.pluginport || changes.pluginhost || changes.telnethost || changes.telnetport || changes.telnetuser || changes.telnetsecret || changes.agentnumber || changes.dbhost || changes.dbuser || changes.dbsecret || changes.dbport || changes.dbname){
     			socket_io.emit('disconnect_this');
                 for(var key in changes){
                     options[key] = changes[key].newValue;
@@ -95,7 +152,16 @@ chrome.storage.onChanged.addListener(function (changes,areaName){
     });
 
 
-
+chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
+    var id = notifId.replace(/(-)/g, '');
+    if (typeof notifications[id] != 'undefined' ) {
+        if (btnIdx === 0) {
+            chrome.tabs.create({ url: notifications[id][0] });
+        } else if (btnIdx === 1) {
+            chrome.tabs.create({ url: notifications[id][1] });
+        }
+    }
+});
 
 
 
@@ -105,7 +171,7 @@ chrome.storage.onChanged.addListener(function (changes,areaName){
 
 
 /* Respond to the user's clicking one of the buttons */
-chrome.notifications.onClicked.addListener(function(notifId, btnIdx) {
+/*chrome.notifications.onClicked.addListener(function(notifId, btnIdx) {
     var id = notifId.replace(/(-)/g, '');
     if (typeof notifications[id] != 'undefined' ) {
         chrome.tabs.create({ url: notifications[id] });
@@ -114,19 +180,8 @@ chrome.notifications.onClicked.addListener(function(notifId, btnIdx) {
         });
         
     }
-});
-
-
-/*chrome.notifications.create({
-    type: "basic",
-
-    title: message_title, 
-    message: v.cashback,
-    isClickable:true,
-
-    iconUrl: "icon_120.png",
-
-}, function(notifId) {
-    var id = notifId.replace(/(-)/g, '');
-    notifications[id] = link;
 });*/
+
+
+
+
