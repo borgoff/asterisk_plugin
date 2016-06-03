@@ -152,10 +152,12 @@ chrome.storage.onChanged.addListener(function (changes,areaName){
       }
       calls_history();
     });
-
+var bgPage = chrome.extension.getBackgroundPage();
 document.addEventListener('DOMContentLoaded', restore_options);
 document.addEventListener('DOMContentLoaded', connection_status);
 document.addEventListener('DOMContentLoaded', calls_history);
+document.getElementById('save').addEventListener('click',
+    bgPage.new_connect);
 document.getElementById('save').addEventListener('click',
     save_options);
 document.getElementById('save').addEventListener('click',

@@ -151,7 +151,7 @@ chrome.storage.sync.get({
 
 
 
-chrome.storage.onChanged.addListener(function (changes,areaName){
+/*chrome.storage.onChanged.addListener(function (changes,areaName){
     	if(areaName == 'sync'){
     		if (changes.pluginport || changes.pluginhost || changes.telnethost || changes.telnetport || changes.telnetuser || changes.telnetsecret || changes.agentnumber || changes.dbhost || changes.dbuser || changes.dbsecret || changes.dbport || changes.dbname){
     			socket_io.emit('disconnect_this');
@@ -161,7 +161,7 @@ chrome.storage.onChanged.addListener(function (changes,areaName){
                 new_connect();
     		}
     	}
-    });
+    });*/
 
 
 chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
