@@ -159,12 +159,8 @@ chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
     if (typeof notifications[notifId] != 'undefined' ) {
         if (btnIdx === 0) {
             chrome.tabs.create({ url: notifications[notifId][0] });
-            chrome.notifications.clear(notifId);
         } else if (btnIdx === 1) {
             chrome.tabs.create({ url: notifications[notifId][1] });
-            chrome.notifications.clear(notifId, function() {
-                delete notifications[notifId];
-            });
         }
     }
 });
