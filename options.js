@@ -123,7 +123,7 @@ function calls_history(){
         if (item.unknown_user){
           calls_history_html += '<div class="call_row">'+
                                 item.user_phone+' / '+item.call_time
-                                '</div>';
+                                '<hr></div>';
         } else {
           calls_history_html += '<div class="call_row">'+
                                 item.user_phone+' / '+item.call_time+' / '+item.user_id+' / '+item.user_fio+' / <a href="'+sync_items.abill+'">Abills</a><hr>'+
