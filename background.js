@@ -37,6 +37,13 @@ function new_connect(){
         socket_io.emit('disconnect_this');
     });
 
+    socket_io.on('disconnect',function(data){
+        chrome.browserAction.setIcon({path: 'red_icon.png'});
+        chrome.storage.local.set({cstatus:"Disconnected"});
+        chrome.browserAction.setBadgeBackgroundColor({color: "#ff0000"});
+        socket_io.emit('disconnect_this');
+    });
+
     socket_io.on('remove_message',function(data){
         console.log('remove notification id - '+data.uniqueid);
         var not_id = ""+data.uniqueid;
@@ -73,7 +80,8 @@ function new_connect(){
                                     /*{title: "П.І.Б.", message: ": "+data.user_fio},*/
                                     /*{title: "Депозит", message: ": "+data.user_deposit},
                                     {title: "Кредит", message: ": "+data.user_credit},*/
-                                    {title: "Тариф", message: ": "+data.user_plan_name+" Депозит: "+data.user_deposit+" Кредит: "+data.user_credit+" Група: "+data.user_group_name},
+                                    {title: "Тариф", message: ": "+data.user_plan_name+" Група: "+data.user_group_name},
+                                    {title: "Баланс", message: " Депозит: "+data.user_deposit+" Кредит: "+data.user_credit},
                                     /*{title: "Група", message: ": "+data.user_group_name},*/
                                     {title: "Адреса", message: ": "+data.user_district_name+", "+data.user_street_name+" "+data.user_bild_number+"/"+data.user_flat_number}
                                     /*{title: "Район", message: ": "+data.user_district_name},

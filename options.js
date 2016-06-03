@@ -126,7 +126,15 @@ function calls_history(){
                                 '<hr></div>';
         } else {
           calls_history_html += '<div class="call_row">'+
-                                item.user_phone+' / '+item.call_time+' / '+item.user_id+' / '+item.user_fio+' / <a href="'+sync_items.abill+'">Abills</a><hr>'+
+                                item.user_phone+' / '+
+                                item.call_time+' / '+
+                                item.user_id+' / '+
+                                item.user_fio+' / '+
+                                '<a href="'+
+                                sync_items.abill+
+                                '/admin/index.cgi?index=15&UID='+
+                                item.user_id+
+                                '" target="_blank">Abills</a><hr>'+
                                 '</div>';
         }
       });

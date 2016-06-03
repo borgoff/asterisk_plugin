@@ -11,9 +11,6 @@
       "16":"red_icon.png",
       "16":"green_icon.png"
    },
-
-   
-   "default_locale": "uk",
    "description": "Плагін для кол центру",
    "homepage_url": "http://us.astra.in.ua/",
    "icons": {
