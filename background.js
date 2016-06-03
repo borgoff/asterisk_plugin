@@ -41,7 +41,6 @@ function new_connect(){
         chrome.browserAction.setIcon({path: 'red_icon.png'});
         chrome.storage.local.set({cstatus:"Disconnected"});
         chrome.browserAction.setBadgeBackgroundColor({color: "#ff0000"});
-        socket_io.emit('disconnect_this');
     });
 
     socket_io.on('remove_message',function(data){
