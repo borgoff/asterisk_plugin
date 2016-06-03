@@ -37,15 +37,16 @@ function new_connect(){
         socket_io.emit('disconnect_this');
     });
 
+    socket_io.on('remove_message',function(data){
+        var not_id = ""+data.uniqueid;
+        chrome.notifications.clear(not_id, function() {
+            delete notifications[notifId];
+        });
+    });
+
     socket_io.on('message',function(data){
         var now = new Date();
-        var pretty = [
-          now.getHours(),
-          ':',
-          now.getMinutes(),
-          ':',
-          now.getSeconds()
-        ].join('');
+        var pretty = now.getHours()+":"+(now.getMinutes()<10?'0':'') + now.getMinutes()+":"+now.getSeconds();
 
         data['call_time'] = pretty;
         calls_array.push(data);
@@ -61,27 +62,29 @@ function new_connect(){
                                     {title: "Вхідний номер", message: data.user_phone},
                                     {title: "Абонент", message: "Відсутній в базі"}
                                 ];
-            var first_button_url = options.abill;
-            var second_button_url = options.ubill;
+            first_button_url = options.abill+"/admin";
+            second_button_url = options.ubill;
         } else {
             notification_items = [
                                     {title: "Вхідний номер", message: ": "+data.user_phone},
-                                    {title: "Абонент", message: ": "+data.user_id},
-                                    {title: "П.І.Б.", message: ": "+data.user_fio},
-                                    {title: "Депозит", message: ": "+data.user_deposit},
-                                    {title: "Кредит", message: ": "+data.user_credit},
-                                    {title: "Тариф", message: ": "+data.user_plan_name},
-                                    {title: "Група", message: ": "+data.user_group_name},
-                                    {title: "Район", message: ": "+data.user_district_name},
+                                    {title: "Абонент", message: ": "+data.user_id+" П.І.Б.: "+data.user_fio},
+                                    /*{title: "П.І.Б.", message: ": "+data.user_fio},*/
+                                    /*{title: "Депозит", message: ": "+data.user_deposit},
+                                    {title: "Кредит", message: ": "+data.user_credit},*/
+                                    {title: "Тариф", message: ": "+data.user_plan_name+" Депозит: "+data.user_deposit+" Кредит: "+data.user_credit+" Група: "+data.user_group_name},
+                                    /*{title: "Група", message: ": "+data.user_group_name},*/
+                                    {title: "Адреса", message: ": "+data.user_district_name+", "+data.user_street_name+" "+data.user_bild_number+"/"+data.user_flat_number}
+                                    /*{title: "Район", message: ": "+data.user_district_name},
                                     {title: "Вулиця", message: ": "+data.user_street_name},
                                     {title: "Будинок", message: ": "+data.user_bild_number},
-                                    {title: "Квартира", message: ": "+data.user_flat_number}
+                                    {title: "Квартира", message: ": "+data.user_flat_number}*/
                                 ];
             first_button_url = options.abill+'/admin/index.cgi?index=15&UID='+data.user_id;
             second_button_url = options.ubill+'/oper/abon_list.php?type=find&search='+data.user_id+'&find_typer=abon_codeti&accurat=1';
         }
 
-        chrome.notifications.create({
+        var not_id = ""+data.uniqueid;
+        chrome.notifications.create(not_id,{
             type: "list",
             title: "Новий дзвінок",
             iconUrl: "icon_120.png",
@@ -92,8 +95,7 @@ function new_connect(){
             items: notification_items
 
         }, function(notifId) {
-            var id = notifId.replace(/(-)/g, '');
-            notifications[id] = [first_button_url, second_button_url];
+            notifications[notifId] = [first_button_url, second_button_url];
             myAudio.play();    
         });
     });
@@ -154,12 +156,15 @@ chrome.storage.onChanged.addListener(function (changes,areaName){
 
 
 chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
-    var id = notifId.replace(/(-)/g, '');
-    if (typeof notifications[id] != 'undefined' ) {
+    if (typeof notifications[notifId] != 'undefined' ) {
         if (btnIdx === 0) {
-            chrome.tabs.create({ url: notifications[id][0] });
+            chrome.tabs.create({ url: notifications[notifId][0] });
+            chrome.notifications.clear(notifId);
         } else if (btnIdx === 1) {
-            chrome.tabs.create({ url: notifications[id][1] });
+            chrome.tabs.create({ url: notifications[notifId][1] });
+            chrome.notifications.clear(notifId, function() {
+                delete notifications[notifId];
+            });
         }
     }
 });

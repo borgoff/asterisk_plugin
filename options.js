@@ -122,7 +122,7 @@ function calls_history(){
       local_items.calls_array.forEach(function(item, i, arr) {
         if (item.unknown_user){
           calls_history_html += '<div class="call_row">'+
-                                item.user_phone+'/'+item.call_time
+                                item.user_phone+' / '+item.call_time
                                 '</div>';
         } else {
           calls_history_html += '<div class="call_row">'+
@@ -130,7 +130,7 @@ function calls_history(){
                                 '</div>';
         }
       });
-      document.getElementById('calls_history').html = calls_history_html;
+      document.getElementById('calls_history').innerHTML = calls_history_html;
     });
     
   });
