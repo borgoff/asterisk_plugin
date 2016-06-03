@@ -133,7 +133,7 @@ function calls_history(){
                                 '<a href="'+
                                 sync_items.abill+
                                 '/admin/index.cgi?index=15&UID='+
-                                item.user_id+
+                                item.user_uid+
                                 '" target="_blank">Abills</a><hr>'+
                                 '</div>';
         }

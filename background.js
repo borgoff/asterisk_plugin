@@ -89,8 +89,8 @@ function new_connect(){
                                     {title: "Будинок", message: ": "+data.user_bild_number},
                                     {title: "Квартира", message: ": "+data.user_flat_number}*/
                                 ];
-            first_button_url = options.abill+'/admin/index.cgi?index=15&UID='+data.user_id;
-            second_button_url = options.ubill+'/oper/abon_list.php?type=find&search='+data.user_id+'&find_typer=abon_codeti&accurat=1';
+            first_button_url = options.abill+'/admin/index.cgi?index=15&UID='+data.user_uid;
+            second_button_url = options.ubill+'/oper/abon_list.php?type=find&search='+data.user_uid+'&find_typer=abon_codeti&accurat=1';
         }
 
         var not_id = ""+data.uniqueid;
