@@ -126,7 +126,7 @@ function calls_history(){
                                 '</div>';
         } else {
           calls_history_html += '<div class="call_row">'+
-                                item.user_phone+' / '+item.call_time+' / '+item.user_id+' / '+item.user_fio+' / <a href="'+sync_items.abill+'">Abills</a>'+
+                                item.user_phone+' / '+item.call_time+' / '+item.user_id+' / '+item.user_fio+' / <a href="'+sync_items.abill+'">Abills</a><hr>'+
                                 '</div>';
         }
       });
@@ -142,6 +142,7 @@ chrome.storage.onChanged.addListener(function (changes,areaName){
           connection_status();
         }
       }
+      calls_history();
     });
 
 document.addEventListener('DOMContentLoaded', restore_options);

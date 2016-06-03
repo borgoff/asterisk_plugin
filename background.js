@@ -38,13 +38,15 @@ function new_connect(){
     });
 
     socket_io.on('remove_message',function(data){
+        console.log('remove notification id - '+data.uniqueid);
         var not_id = ""+data.uniqueid;
         chrome.notifications.clear(not_id, function() {
-            delete notifications[notifId];
+            delete notifications[not_id];
         });
     });
 
     socket_io.on('message',function(data){
+        console.log('new notification id - '+data.uniqueid);
         var now = new Date();
         var pretty = now.getHours()+":"+(now.getMinutes()<10?'0':'') + now.getMinutes()+":"+now.getSeconds();
 
