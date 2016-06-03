@@ -130,6 +130,7 @@ function calls_history(){
                                 '</div>';
         }
       });
+      document.getElementById('calls_history').html = calls_history_html;
     });
     
   });

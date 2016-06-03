@@ -65,17 +65,17 @@ function new_connect(){
             var second_button_url = options.ubill;
         } else {
             notification_items = [
-                                    {title: "Вхідний номер", message: data.user_phone},
-                                    {title: "Абонент", message: data.user_id},
-                                    {title: "П.І.Б.", message: data.user_fio},
-                                    {title: "Депозит", message: data.user_deposit},
-                                    {title: "Кредит", message: data.user_credit},
-                                    {title: "Тариф", message: data.user_plan_name},
-                                    {title: "Група", message: data.user_group_name},
-                                    {title: "Район", message: data.user_district_name},
-                                    {title: "Вулиця", message: data.user_street_name},
-                                    {title: "Будинок", message: data.user_bild_number},
-                                    {title: "Квартира", message: data.user_flat_number}
+                                    {title: "Вхідний номер", message: ": "+data.user_phone},
+                                    {title: "Абонент", message: ": "+data.user_id},
+                                    {title: "П.І.Б.", message: ": "+data.user_fio},
+                                    {title: "Депозит", message: ": "+data.user_deposit},
+                                    {title: "Кредит", message: ": "+data.user_credit},
+                                    {title: "Тариф", message: ": "+data.user_plan_name},
+                                    {title: "Група", message: ": "+data.user_group_name},
+                                    {title: "Район", message: ": "+data.user_district_name},
+                                    {title: "Вулиця", message: ": "+data.user_street_name},
+                                    {title: "Будинок", message: ": "+data.user_bild_number},
+                                    {title: "Квартира", message: ": "+data.user_flat_number}
                                 ];
             first_button_url = options.abill+'/admin/index.cgi?index=15&UID='+data.user_id;
             second_button_url = options.ubill+'/oper/abon_list.php?type=find&search='+data.user_id+'&find_typer=abon_codeti&accurat=1';
@@ -85,6 +85,7 @@ function new_connect(){
             type: "list",
             title: "Новий дзвінок",
             iconUrl: "icon_120.png",
+            message: "",
             requireInteraction:true,
             buttons: [{ title: "Abills", iconUrl: "red_icon.png"},
                         { title: "Userside", iconUrl: "green_icon.png"}],
