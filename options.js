@@ -1,3 +1,4 @@
+
 // Saves options to chrome.storage.sync.
 $(document).ready(function(){
   $('#connection').click(function(){
@@ -121,11 +122,11 @@ function calls_history(){
 
       local_items.calls_array.forEach(function(item, i, arr) {
         if (item.unknown_user){
-          calls_history_html += '<div class="call_row">'+
-                                item.user_phone+' / '+item.call_time
-                                '<hr></div>';
+          calls_history_html = calls_history_html + '<div class="call_row">'+
+                                item.user_phone+' / '+item.call_time+
+                                '</div>';
         } else {
-          calls_history_html += '<div class="call_row">'+
+          calls_history_html = calls_history_html + '<div class="call_row">'+
                                 item.user_phone+' / '+
                                 item.call_time+' / '+
                                 item.user_id+' / '+
@@ -134,7 +135,7 @@ function calls_history(){
                                 sync_items.abill+
                                 '/admin/index.cgi?index=15&UID='+
                                 item.user_uid+
-                                '" target="_blank">Abills</a><hr>'+
+                                '" target="_blank">Abills</a>'+
                                 '</div>';
         }
       });

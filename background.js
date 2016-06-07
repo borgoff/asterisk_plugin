@@ -79,10 +79,10 @@ function new_connect(){
                                     /*{title: "П.І.Б.", message: ": "+data.user_fio},*/
                                     /*{title: "Депозит", message: ": "+data.user_deposit},
                                     {title: "Кредит", message: ": "+data.user_credit},*/
-                                    {title: "Тариф", message: ": "+data.user_plan_name+" Група: "+data.user_group_name},
-                                    {title: "Баланс", message: " Депозит: "+data.user_deposit+" Кредит: "+data.user_credit},
+                                    {title: "Тар.", message: ": "+data.user_plan_name+" Гр.: "+data.user_group_name},
+                                    {title: "Баланс", message: " Деп.: "+data.user_deposit+" Кр.: "+data.user_credit},
                                     /*{title: "Група", message: ": "+data.user_group_name},*/
-                                    {title: "Адреса", message: ": "+data.user_district_name+", "+data.user_street_name+" "+data.user_bild_number+"/"+data.user_flat_number}
+                                    {title: "Адр.", message: ": "+data.user_district_name+", "+data.user_street_name+" "+data.user_bild_number+"/"+data.user_flat_number}
                                     /*{title: "Район", message: ": "+data.user_district_name},
                                     {title: "Вулиця", message: ": "+data.user_street_name},
                                     {title: "Будинок", message: ": "+data.user_bild_number},
