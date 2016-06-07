@@ -76,17 +76,9 @@ function new_connect(){
             notification_items = [
                                     {title: "Вхідний номер", message: ": "+data.user_phone},
                                     {title: "Абонент", message: ": "+data.user_id+" П.І.Б.: "+data.user_fio},
-                                    /*{title: "П.І.Б.", message: ": "+data.user_fio},*/
-                                    /*{title: "Депозит", message: ": "+data.user_deposit},
-                                    {title: "Кредит", message: ": "+data.user_credit},*/
                                     {title: "Тар.", message: ": "+data.user_plan_name+" Гр.: "+data.user_group_name},
                                     {title: "Баланс", message: " Деп.: "+data.user_deposit+" Кр.: "+data.user_credit},
-                                    /*{title: "Група", message: ": "+data.user_group_name},*/
                                     {title: "Адр.", message: ": "+data.user_district_name+", "+data.user_street_name+" "+data.user_bild_number+"/"+data.user_flat_number}
-                                    /*{title: "Район", message: ": "+data.user_district_name},
-                                    {title: "Вулиця", message: ": "+data.user_street_name},
-                                    {title: "Будинок", message: ": "+data.user_bild_number},
-                                    {title: "Квартира", message: ": "+data.user_flat_number}*/
                                 ];
             first_button_url = options.abill+'/admin/index.cgi?index=15&UID='+data.user_uid;
             second_button_url = options.ubill+'/oper/abon_list.php?type=find&search='+data.user_uid+'&find_typer=abon_codeti&accurat=1';
@@ -150,20 +142,6 @@ chrome.storage.sync.get({
 });
 
 
-
-/*chrome.storage.onChanged.addListener(function (changes,areaName){
-    	if(areaName == 'sync'){
-    		if (changes.pluginport || changes.pluginhost || changes.telnethost || changes.telnetport || changes.telnetuser || changes.telnetsecret || changes.agentnumber || changes.dbhost || changes.dbuser || changes.dbsecret || changes.dbport || changes.dbname){
-    			socket_io.emit('disconnect_this');
-                for(var key in changes){
-                    options[key] = changes[key].newValue;
-                }
-                new_connect();
-    		}
-    	}
-    });*/
-
-
 chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
     if (typeof notifications[notifId] != 'undefined' ) {
         if (btnIdx === 0) {
@@ -173,26 +151,3 @@ chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
         }
     }
 });
-
-
-
-
-
-
-
-
-/* Respond to the user's clicking one of the buttons */
-/*chrome.notifications.onClicked.addListener(function(notifId, btnIdx) {
-    var id = notifId.replace(/(-)/g, '');
-    if (typeof notifications[id] != 'undefined' ) {
-        chrome.tabs.create({ url: notifications[id] });
-        chrome.notifications.clear(notifId, function() {
-            delete notifications[id];
-        });
-        
-    }
-});*/
-
-
-
-
