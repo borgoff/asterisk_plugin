@@ -37,7 +37,10 @@ label input, label span {
 	border-bottom: 1px solid black;
 	font-size: 14px;
 }
-.call_row:hover {
+
+.call_row.selected_row, .call_row:hover{
 	background-color: darkslategrey;
 	color: #FFFFFF;
+	font-weight: 600;
+	font-size: 16px;
 }

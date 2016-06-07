@@ -7,6 +7,10 @@ $(document).ready(function(){
   $('#calls').click(function(){
     $('#calls_history').slideToggle();
   });
+  $('#calls_history').on('click','.call_row',function(){
+    $('.call_row').removeClass('selected_row');
+    $(this).addClass('selected_row');
+  });
 });
 function save_options() {
   var telnethost = document.getElementById('telnethost').value;
