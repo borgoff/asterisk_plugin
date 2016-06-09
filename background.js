@@ -85,11 +85,16 @@ function new_connect(){
         }
 
         var not_id = ""+data.uniqueid;
+        var n_priority = 2;
+        if (notifications.length > 3){
+            n_priority = 0;
+        }
         chrome.notifications.create(not_id,{
             type: "list",
             title: "Новий дзвінок",
             iconUrl: "icon_120.png",
             message: "",
+            priority: n_priority,
             requireInteraction:true,
             buttons: [{ title: "Abills", iconUrl: "red_icon.png"},
                         { title: "Userside", iconUrl: "green_icon.png"}],
